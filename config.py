@@ -1,3 +1,4 @@
 config = {
-    "token": ""
+    "token": "",
+    "db": "icarus.db"
 }
