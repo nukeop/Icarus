@@ -8,6 +8,6 @@ def create_command(bot):
         !nsa will show you one term from the spook file. Adding a
         number after the command will show you multiple terms.
         """
-        print(db)
+        pass
 
     return nsa
