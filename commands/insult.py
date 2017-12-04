@@ -12,7 +12,12 @@ def create_command(bot):
         """
         if len(ctx.message.mentions) > 0:
             user = ctx.message.mentions[0]
-            insult = random.choice(table.all())['insult']
+            insults = table.all()
+            if len(insults) < 1:
+                await bot.say('No insults in the database.')
+                return
+            
+            insult = random.choice(insults)['insult']
 
             await bot.say(insult.format(user.mention))
         else:
