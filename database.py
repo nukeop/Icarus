@@ -1,4 +1,4 @@
-import pickledb
+from tinydb import TinyDB
 from config import config
 
-db = pickledb.load(config['db'], True)
+db = TinyDB(config['db'])
