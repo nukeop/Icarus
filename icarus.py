@@ -10,7 +10,8 @@ import commands
 from config import config
 
 log = None
-bot = discord_commands.Bot(command_prefix='!')
+bot = discord_commands.Bot(command_prefix='!',
+                           description=config['description'], pm_help=True)
 bot.command_functions = []
 
 @bot.event
