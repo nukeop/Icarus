@@ -5,22 +5,21 @@ from config import config
 
 API = 'http://www.omdbapi.com/?t={}&apikey={}'
 
-def get_movie_info(movie):
-    r = requests.get(API.format(movie, config['omdb_api_key'])).text
+def get_movie_info(movie, requestInterface=requests):
+    r = requestInterface.get(API.format(movie, config['omdb_api_key'])).text
     parsed = json.loads(r)
     if 'Error' in parsed:
-        return (parsed['Error'], None)
+        return [parsed['Error']]
 
     seasons = ''
     if 'totalSeasons' in parsed:
         seasons = 'Seasons: {}\n'.format(parsed['totalSeasons'])
-    print(parsed)
         
     msg = ("Title: {}\nYear: {}\nRuntime: {}\nGenre: {}\nCountry: {}\n{}Plot: "
            "{}").format(parsed['Title'], parsed['Year'], parsed['Runtime'],
                         parsed['Genre'], parsed['Country'], seasons,
                         parsed['Plot'])
-    return (msg, parsed['Poster'])
+    return [msg, parsed['Poster']]
 
 def create_command(bot):
 
@@ -32,6 +31,5 @@ def create_command(bot):
         poster thumbnail.
         """
         movie_info = get_movie_info(terms)
-        
-        await bot.say(movie_info[0])
-        await bot.say(movie_info[1])
+        for line in movie_info:
+            await bot.say(line)
