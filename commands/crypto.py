@@ -1,35 +1,43 @@
 import json
 import requests
 
-API = "https://api.cryptonator.com/api/ticker/{}-{}"
+API = "https://api.coinmarketcap.com/v1/ticker/"
 CURRENCY = "usd"
 
-def create_command(bot):
 
-    def get_price(symbol):
-        data = requests.get(API.format(symbol, CURRENCY)).text
-        data = json.loads(data)
-        if data.get('error'):
-            return 'Error fetching data for symbol {}, it might not exist'.format(symbol)
-        else:
-            message = "Current price of {}: {} USD".format(symbol, round(float(data['ticker']['price']), 2))
-            change = data['ticker']['change']
-            change = round(float(change), 2)
-            if change > 0:
-                change = '+' + str(change)
-                change += ' USD :chart_with_upwards_trend:'
-            else:
-                change = str(change)
-                change += ' USD :chart_with_downwards_trend:'
-                                                            
-            return message + ' ({})'.format(change)
+def get_list(requestInterface=requests):
+    r = requestInterface.get(API).text
+    r = json.loads(r)
+    r = ', '.join([x['id'] for x in r])
+    return r
+
+
+def generate_help_string():
+    help = "\
+Shows you current prices (in US dollars) of \
+various cryptocurrencies. Use BTC for bitcoin, ETH for Ethereum, and so \
+on. \
+\
+Here's a complete list of all supported currencies: \
+    "
+
+    help += get_list()
+    return help
+
+def get_ticker(symbol, requestInterface=requests):
+    r = requestInterface.get(API + symbol).text
+    r = json.loads(r)[0]
+    msg = ("{} ({}) status:\nPrice (USD): {}\nPrice (BTC): {}\nVolume (USD):"
+           "{}\n% change (1h): {}\n% change (24h): {}")
+    msg = msg.format(r['name'], r['symbol'], r['price_usd'], r['price_btc'],
+                     r['24h_volume_usd'], r['percent_change_1h'],
+                     r['percent_change_24h'])
     
-    @bot.command(pass_context=True, brief="Shows cryptocurrency prices")
+    return msg
+
+
+def create_command(bot):
+    
+    @bot.command(pass_context=True, brief="Shows cryptocurrency prices", help=generate_help_string())
     async def crypto(ctx, *, symbol):
-        """
-        !crypto <symbol> will show you current prices (in US dollars) of
-        various cryptocurrencies. Use BTC for bitcoin, ETH for Ethereum, and so
-        on. a complete list of valid symbols can be found here:
-        https://www.cryptonator.com/api/currencies
-        """
-        await bot.say(get_price(symbol))
+        await bot.say(get_ticker(symbol))
