@@ -24,14 +24,22 @@ Here's a complete list of all supported currencies: \
     help += get_list()
     return help
 
+def add_chart_emoji(change):
+    return change + (' :chart_with_upwards_trend:' if float(change)
+                     > 0 else ' :chart_with_downwards_trend:')
+
 def get_ticker(symbol, requestInterface=requests):
     r = requestInterface.get(API + symbol).text
     r = json.loads(r)[0]
     msg = ("{} ({}) status:\nPrice (USD): {}\nPrice (BTC): {}\nVolume (USD):"
            "{}\n% change (1h): {}\n% change (24h): {}")
+
+    change_1h = r['percent_change_1h']
+    change_24h = r['percent_change_24h']
+    
     msg = msg.format(r['name'], r['symbol'], r['price_usd'], r['price_btc'],
-                     r['24h_volume_usd'], r['percent_change_1h'],
-                     r['percent_change_24h'])
+                     r['24h_volume_usd'], add_chart_emoji(change_1h),
+                     add_chart_emoji(change_24h))
     
     return msg
 
