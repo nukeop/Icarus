@@ -1,6 +1,7 @@
 discord.py
 mock
 nose
+python-Levenshtein
 requests
 tinydb
 youtube-dl

@@ -1,6 +1,8 @@
 import json
 import requests
 
+from Levenshtein import distance
+
 API = "https://api.coinmarketcap.com/v1/ticker/"
 CURRENCY = "usd"
 
@@ -30,7 +32,16 @@ def add_chart_emoji(change):
 
 def get_ticker(symbol, requestInterface=requests):
     r = requestInterface.get(API + symbol).text
-    r = json.loads(r)[0]
+    r = json.loads(r)
+
+    if 'error' in r:
+        l = [x.strip() for x in get_list().split(',')]
+        distances = [distance(x, symbol) for x in l]
+        index = distances.index(min(distances))
+        r = requestInterface.get(API + l[index]).text
+        r = json.loads(r)
+
+    r = r[0]
     msg = ("{} ({}) status:\nPrice (USD): {}\nPrice (BTC): {}\nVolume (USD):"
            "{}\n% change (1h): {}\n% change (24h): {}")
 
