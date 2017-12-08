@@ -6,10 +6,14 @@ from Levenshtein import distance
 API = "https://api.coinmarketcap.com/v1/ticker/"
 CURRENCY = "usd"
 
-
-def get_list(requestInterface=requests):
+def get_list_raw(requestInterface=requests):
     r = requestInterface.get(API).text
     r = json.loads(r)
+    return r
+
+
+def get_list(requestInterface=requests):
+    r = get_list_raw(requestInterface)
     r = ', '.join([x['id'] for x in r])
     return r
 
@@ -35,11 +39,19 @@ def get_ticker(symbol, requestInterface=requests):
     r = json.loads(r)
 
     if 'error' in r:
-        l = [x.strip() for x in get_list().split(',')]
-        distances = [distance(x, symbol) for x in l]
-        index = distances.index(min(distances))
-        r = requestInterface.get(API + l[index]).text
-        r = json.loads(r)
+        rawlist = get_list_raw()
+        symbols = [x['symbol'] for x in rawlist]
+        if symbol.upper() in symbols:
+            for entry in rawlist:
+                if entry['symbol'] == symbol.upper():
+                    r = [entry]
+                    break
+        else:
+            l = [x.strip() for x in get_list().split(',')]
+            distances = [distance(x, symbol) for x in l]
+            index = distances.index(min(distances))
+            r = requestInterface.get(API + l[index]).text
+            r = json.loads(r)
 
     r = r[0]
     msg = ("{} ({}) status:\nPrice (USD): {}\nPrice (BTC): {}\nVolume (USD):"
