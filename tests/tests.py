@@ -27,7 +27,7 @@ class VersionCommandTests(unittest.TestCase):
     @status
     def test_get_version_hash(self):
         subprocess = mock.Mock()
-        subprocess.check_output = mock.Mock(return_value='test output')
+        subprocess.check_output = mock.Mock(return_value=b'test output')
         output = self.get_version_hash(subprocess)
 
         assert subprocess.check_output.called
