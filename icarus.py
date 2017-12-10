@@ -14,10 +14,22 @@ bot = discord_commands.Bot(command_prefix='!',
                            description=config['description'], pm_help=True)
 bot.command_functions = []
 
+
+def startup_info():
+    log.info('Starting Icarus...')
+    
+
+def after_login_info():
+    log.info('Connected servers: {}'.format(len(bot.servers)))
+    for server in bot.servers:
+        log.info("{} ({})".format(server.name, server.id))
+
+    
 @bot.event
 async def on_ready():
     log.info('Logged in as {} ({})'.format(bot.user.name, bot.user.id))
-
+    after_login_info()
+    
 
 def configure_logging():
     root = logging.getLogger()
@@ -50,7 +62,9 @@ def import_commands():
             bot.command_functions.append(cmd_fun)
         else:
             log.error("Invalid command: {}, skipping".format(module))
+            
 
 log = configure_logging()
+startup_info()
 import_commands()
 bot.run(config['token'])
