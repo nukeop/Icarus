@@ -1,6 +1,7 @@
 discord.py
 mock
 nose
+pygithub
 python-Levenshtein
 requests
 tinydb
