@@ -4,6 +4,6 @@ config = {
     "description": "I must greet each visitor with a complete summary of his file. I am a prototype for a much larger system.",
     "db": "icarus.db",
     "omdb_api_key": "",
-    "OPENWEATHERMMAP_APIKEY": ""
-
+    "github_token": "",
+    "openweathermap_apikey": ""
 }
