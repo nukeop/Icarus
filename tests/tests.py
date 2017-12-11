@@ -18,6 +18,24 @@ def sanity_test():
     assert True
 
 
+class VersionCommandTests(unittest.TestCase):
+
+    def setUp(self):
+        from commands.version import get_version_hash
+        self.get_version_hash = get_version_hash
+
+    @status
+    def test_get_version_hash(self):
+        subprocess = mock.Mock()
+        subprocess.check_output = mock.Mock(return_value=b'test output')
+        output = self.get_version_hash(subprocess)
+
+        assert subprocess.check_output.called
+        assert subprocess.check_output.call_count == 1
+        assert output == 'test output'
+        
+    
+
 class MovieCommandTests(unittest.TestCase):
 
     def setUp(self):
