@@ -1,3 +1,4 @@
+import argparse
 import discord
 from discord.ext import commands as discord_commands
 
@@ -25,16 +26,16 @@ def after_login_info():
     for server in bot.servers:
         log.info("{} ({})".format(server.name, server.id))
 
-    
+ 
 @bot.event
 async def on_ready():
     log.info('Logged in as {} ({})'.format(bot.user.name, bot.user.id))
     after_login_info()
 
 
-@bot.event
-async def on_command(ctx, error):
-    check_for_updates()
+@bot.check
+def checkDevMode(ctx):
+    return (not config['dev'] or ctx.message.channel.name == 'icarus')
     
 
 def configure_logging():
@@ -71,8 +72,15 @@ def import_commands():
         else:
             log.error("Invalid command: {}, skipping".format(module))
             
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--dev', action='store_true', help='If enabled, the'
+                        ' bot will only talk in channels named #icarus')
+    args = parser.parse_args()
 
-log = configure_logging()
-startup_info()
-import_commands()
-bot.run(config['token'])
+    config['dev'] = args.dev
+    
+    log = configure_logging()
+    startup_info()
+    import_commands()
+    bot.run(config['token'])
