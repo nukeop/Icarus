@@ -1,5 +1,6 @@
 import json
 import requests
+import urllib.parse
 
 DDG_API_URL = "https://api.duckduckgo.com/?q={}&format=json"
 
@@ -11,7 +12,10 @@ def create_command(bot):
         !ddg lets you search for things on DuckDuckGo. The bot will then return
         the first link it returns and a short definition.
         """
-        url = DDG_API_URL.format(term)
+        if '!' in term:
+            term = term.replace('!', '')
+        
+        url = DDG_API_URL.format(urllib.parse.quote(term))
         text = requests.get(url).text
         parsed = json.loads(text)
 

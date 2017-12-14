@@ -9,7 +9,8 @@ gh = Github(config['github_token'])
 def check_for_updates():
     full_name = '/'.join(config['repository'].split('/')[-2:])
     repo = gh.get_repo(full_name)
-    newest_hash = repo.get_commits()[0].sha
-    current_hash = get_long_hash()
+    newest_hash = repo.get_commits()[0].sha.strip()
+    current_hash = get_long_hash().strip()
+
     if newest_hash != current_hash:
         log.info("Bot outdated, update needed")
