@@ -11,8 +11,6 @@ def get_weather(location):
     parsed = json.loads(r)
 
     weather_conditions=[]
-    print(parsed)
-    print(parsed['message'])
     for w in parsed['list'][0]['weather']:
         weather_conditions.append(w['main'])
 
@@ -32,6 +30,3 @@ def create_command(bot):
     @bot.command(pass_context=True, brief="Shows weather", help=generate_help_string())
     async def weather (ctx, *, location):
         await bot.say(get_weather(location))
-
-
-
