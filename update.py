@@ -52,7 +52,7 @@ def autoupdate():
 
 def periodic_autoupdate():
     if check_for_updates():
-        logger.info('Update needed. Downloading and restarting.')
+        log.info('Update needed. Downloading and restarting.')
         autoupdate()
 
     threading.Timer(300, periodic_autoupdate).start()
