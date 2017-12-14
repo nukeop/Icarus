@@ -1,7 +1,8 @@
-from github import Github
 import logging
 import subprocess
+import threading
 
+from github import Github
 from config import config
 from commands.version import get_long_hash, get_version_hash
 
@@ -47,3 +48,11 @@ async def send_after_update_message(bot, channel):
 def autoupdate():
     subprocess.run(['chmod', 'u+rx', 'update.sh'])
     subprocess.run(['bash', 'update.sh'])
+
+
+def periodic_autoupdate():
+    if check_for_updates():
+        logger.info('Update needed. Downloading and restarting.')
+        autoupdate()
+
+    threading.Timer(300, periodic_autoupdate).start()

@@ -9,7 +9,7 @@ import os
 
 import commands
 from config import config
-from update import autoupdate, send_after_update_message, check_for_updates
+from update import periodic_autoupdate, send_after_update_message
 
 log = None
 bot = discord_commands.Bot(command_prefix='!',
@@ -19,6 +19,7 @@ bot.command_functions = []
 
 def startup_info():
     log.info('Starting Icarus...')
+    periodic_autoupdate()
     
 
 async def after_login_info():
