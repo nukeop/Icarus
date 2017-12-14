@@ -9,7 +9,7 @@ import os
 
 import commands
 from config import config
-from update import check_for_updates
+from update import autoupdate, send_after_update_message, check_for_updates
 
 log = None
 bot = discord_commands.Bot(command_prefix='!',
@@ -21,16 +21,20 @@ def startup_info():
     log.info('Starting Icarus...')
     
 
-def after_login_info():
+async def after_login_info():
     log.info('Connected servers: {}'.format(len(bot.servers)))
-    for server in bot.servers:
-        log.info("{} ({})".format(server.name, server.id))
+
+    if config['updated']:
+        for server in bot.servers:
+            main_channel = [c for c in list(server.channels) if c.type ==
+                        discord.ChannelType.text and c.position == 0][0]
+            await send_after_update_message(bot, main_channel)
 
  
 @bot.event
 async def on_ready():
     log.info('Logged in as {} ({})'.format(bot.user.name, bot.user.id))
-    after_login_info()
+    await after_login_info()
 
 
 @bot.check
@@ -76,9 +80,14 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--dev', action='store_true', help='If enabled, the'
                         ' bot will only talk in channels named #icarus')
+    parser.add_argument('--updated', action='store_true', help='This option'
+                        ' will make the bot announce that it has been updated'
+                        ' when it connects to the channels. Typically only'
+                        'used by the auto-update script')
     args = parser.parse_args()
 
     config['dev'] = args.dev
+    config['updated'] = args.updated
     
     log = configure_logging()
     startup_info()
