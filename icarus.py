@@ -23,7 +23,6 @@ def startup_info():
 
 async def after_login_info():
     log.info('Connected servers: {}'.format(len(bot.servers)))
-
     if config['updated']:
         for server in bot.servers:
             main_channel = [c for c in list(server.channels) if c.type ==

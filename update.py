@@ -45,5 +45,5 @@ async def send_after_update_message(bot, channel):
 
 
 def autoupdate():
-    subprocess.run(['chmod', '+x', 'update.sh'])
-    subprocess.run(['./update.sh'])
+    subprocess.run(['chmod', 'u+rx', 'update.sh'])
+    subprocess.run(['bash', 'update.sh'])
