@@ -1,4 +1,6 @@
+cssselect
 discord.py
+lxml
 mock
 nose
 pygithub
