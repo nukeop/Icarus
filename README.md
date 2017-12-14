@@ -1,6 +1,9 @@
-# ![avatar](https://i.imgur.com/gsYCRay.jpg) Icarus
-Discord chat bot -  a spiritual successor of RelayBot
+<p align="center">
+  <img align="center" src ="https://i.imgur.com/gsYCRay.jpg" />
+</p>
 
+# Icarus [![Build Status](https://travis-ci.org/nukeop/Icarus.svg?branch=master)](https://travis-ci.org/nukeop/Icarus)
+Discord chat bot -  a spiritual successor of RelayBot
 
 # Invite link
 You can use the link below to add Icarus to your server:
