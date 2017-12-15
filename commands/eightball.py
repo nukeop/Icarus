@@ -30,4 +30,4 @@ def create_command(bot):
         """
         Answers a yes/no question.
         """
-        await bot.say(random.choice(answers))
+        await bot.say(':8ball: ' + random.choice(answers))
