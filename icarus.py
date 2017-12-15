@@ -40,7 +40,7 @@ async def on_ready():
 @bot.check
 def checkDevMode(ctx):
     return (not config['dev'] or ctx.message.channel.name == 'icarus')
-    
+
 
 def configure_logging():
     root = logging.getLogger()

@@ -5,5 +5,6 @@ config = {
     "db": "icarus.db",
     "omdb_api_key": "",
     "github_token": "",
-    "openweathermap_apikey": ""
+    "openweathermap_apikey": "",
+    "owner": ""
 }
