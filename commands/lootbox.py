@@ -7,7 +7,7 @@ lootbox_contents = open("data/lootbox.txt").readlines()
 
 def create_command(bot):
 
-    @bot.command(pass_context=True)
+    @bot.command(pass_context=True, brief="Opens a random lootbox for you")
     async def lootbox(ctx):
         await bot.say("{} is opening a loot box... :gift:".format(ctx.message.author.mention))
         time.sleep(3)
