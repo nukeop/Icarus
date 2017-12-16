@@ -3,9 +3,14 @@ import json
 import random
 import requests
 
+from database import db
 from discord import Colour, Embed
+from tinydb import Query
+
 
 QUIZ_API = "https://opentdb.com/api.php?amount=1"
+userdata = db.table('userdata')
+
 
 def difficulty_to_stars(difficulty):
     if difficulty == 'easy':
@@ -54,6 +59,13 @@ def create_command(bot):
             value=format_answers(question['correct_answer'], question['incorrect_answers'])
         )
 
+        user_entry = Query()
+        user_entry = userdata.get(user_entry.id == ctx.message.author.id)
+        userdata.update(
+            {'quiz_last_question': json.dumps(question)},
+            doc_ids=[user_entry.doc_id]
+        )
+        
         await bot.say(None, embed=embed)
 
     return quiz
