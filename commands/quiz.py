@@ -29,7 +29,7 @@ def format_answers(correct, incorrect):
     random.shuffle(answers)
     answers = list(enumerate(answers))
 
-    answers_fmt = '\n'.join(['{}. {}'.format(x+1, y) for (x, y) in answers])
+    answers_fmt = html.unescape('\n'.join(['{}. {}'.format(x+1, y) for (x, y) in answers]))
     
     return (answers, answers_fmt)
 
@@ -87,7 +87,6 @@ def create_command(bot):
 
         question = json.loads(question)
 
-        print(ans.lower(), question['answers'][2][1].lower(), ans.lower() == question['answers'][2][1].lower())
         selected_answer = [x for x in question['answers'] if ans.lower() == x[1].lower() or str(x[0]+1) == ans]
         if len(selected_answer) < 1:
             await bot.say('No such answer.')
@@ -98,6 +97,7 @@ def create_command(bot):
                 await bot.say(':white_check_mark: Correct answer, {}'.format(ctx.message.author.mention))
             else:
                 await bot.say(':x: Incorrect answer, {}'.format(ctx.message.author.mention))
+                await bot.say('The correct answer was: {}'.format(question['correct_answer']))
 
             userdata.update(
                 {'quiz_last_question': None},
