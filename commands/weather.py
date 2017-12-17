@@ -42,7 +42,7 @@ def create_command(bot):
         )
 
         embed.add_field(
-            name=":sun_with_face: Temperature: ",
+            name=":sun_with_face: Temperature (C): ",
             value=weather[1]
         )
 
@@ -52,12 +52,12 @@ def create_command(bot):
         )
 
         embed.add_field(
-            name=":cloud_tornado: Wind speed: ",
+            name=":cloud_tornado: Wind speed (m/s): ",
             value=weather[2]
         )
 
         embed.add_field(
-            name=":white_sun_small_cloud: Cloudiness: ",
+            name=":white_sun_small_cloud: Cloudiness (%): ",
             value=weather[3]
         )
 
