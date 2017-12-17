@@ -48,6 +48,7 @@ def create_command(bot):
             embed = Embed()
             embed.type="rich"
             embed.color = Colour.green()
+            embed.set_thumbnail(url='https://i.imgur.com/pdcfd7L.jpg')
             embed.add_field(
                 name="Category",
                 value=question['category']
