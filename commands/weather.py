@@ -48,7 +48,7 @@ def create_command(bot):
 
         embed.add_field(
             name=":warning: Conditions: ",
-            value=','.join(weather[4])
+            value=', '.join(weather[4])
         )
 
         embed.add_field(
