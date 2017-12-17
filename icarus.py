@@ -1,6 +1,7 @@
 import argparse
 import discord
 from discord.ext import commands as discord_commands
+from tinydb import Query
 
 import asyncio
 import importlib
@@ -9,12 +10,14 @@ import os
 
 import commands
 from config import config
+from database import db
 from update import periodic_autoupdate, send_after_update_message
 
 log = None
 bot = discord_commands.Bot(command_prefix='!',
                            description=config['description'], pm_help=True)
 bot.command_functions = []
+userdata = db.table('userdata')
 
 
 def startup_info():
@@ -35,6 +38,18 @@ async def after_login_info():
 async def on_ready():
     log.info('Logged in as {} ({})'.format(bot.user.name, bot.user.id))
     await after_login_info()
+
+
+@bot.event
+async def on_message(message):
+    user_db_entry = Query()
+    entry = userdata.get(user_db_entry.id == message.author.id)
+    if not entry:
+        doc_id = userdata.insert({'id': message.author.id})
+        entry = userdata.get(doc_id=doc_id)
+
+    userdata.update({'name': message.author.name}, doc_ids=[entry.doc_id])
+    await bot.process_commands(message)
 
 
 @bot.check
