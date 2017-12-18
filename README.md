@@ -17,17 +17,25 @@ You can also use !invite and he will send you his invite link.
 Quick rundown:
 
 ```
-  weather   Shows weather
-  movie     Shows information about movies
-  8ball     You got a question, you ask the 8-ball.
-  ddg       Search for terms on DuckDuckGo
-  help      Shows this message.
-  ud        UD search
-  crypto    Shows cryptocurrency prices
-  addinsult Adds a new insult to the database.
-  info      Shows information about information about information
-  invite    PMs you an invite link so you can add this bot to your channel
-  nsa       Shows words from the emacs spook file.
-  insult    Insults another user
-  version   Shows version info and changelog
+  god             Allows you to communicate with God
+  ddg             Search for terms on DuckDuckGo
+  info            Shows information about information about information
+  ud              UD search
+  crypto          Shows cryptocurrency prices
+  quiz            
+  russianroulette 
+  lootbox         Opens a random lootbox for you
+  weather         Shows weather
+  resolve         Test your resolve
+  movie           Shows information about movies
+  invite          PMs you an invite link so you can add this bot to your channel
+  diagnostics     Bot diagnostics for owners
+  dice            Roll a dice
+  version         Shows version info and changelog
+  help            Shows this message.
+  addinsult       Adds a new insult to the database.
+  slots           
+  8ball           You got a question, you ask the 8-ball.
+  nsa             Shows words from the emacs spook file.
+  insult          Insults another user
 ```
