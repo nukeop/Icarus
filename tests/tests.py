@@ -54,6 +54,16 @@ class DiceCommandTests(unittest.TestCase):
         assert value is False
 
     @status
+    def test_parsing(self):
+        import random
+        for _ in range(100):
+            max = str(random.randint(1, 20))
+            value = self.get_value(max)
+            assert value <= int(max)
+            assert value > 0
+        
+
+    @status
     def test_list(self):
         value = self.get_value([])
         assert value is False
