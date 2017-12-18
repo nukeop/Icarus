@@ -17,7 +17,6 @@ quotes=[
     "Where there is no peril in the task, there can be no glory in its accomplishment.",
 ]
 
-random_quote = random.choice(quotes)
 
 def create_command(bot):
 
@@ -34,6 +33,6 @@ def create_command(bot):
             value=random.choice(lootbox_contents)
         )
         embed.set_footer(
-            text= random_quote
+            text= random.choice(quotes)
         )
         await bot.say(None, embed=embed)
