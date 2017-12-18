@@ -19,4 +19,7 @@ def create_command(bot):
             name="The contents are yours...",
             value=random.choice(lootbox_contents)
         )
+        embed.set_footer(
+            text= "A boon, at last! "
+        )
         await bot.say(None, embed=embed)
