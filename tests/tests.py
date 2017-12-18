@@ -18,6 +18,66 @@ def sanity_test():
     assert True
 
 
+class DiceCommandTests(unittest.TestCase):
+
+    def setUp(self):
+        from commands.dice import get_value
+        self.get_value = get_value
+
+    @status
+    def test_positive(self):
+        import random
+        for _ in range(100):
+            max = random.randint(1, 20)
+            value = self.get_value(max)
+            assert value <= max
+            assert value > 0
+
+    @status
+    def test_negative(self):
+        value = self.get_value(-20)
+        assert value is False
+
+    @status
+    def test_zero(self):
+        value = self.get_value(0)
+        assert value is False
+
+    @status
+    def test_float(self):
+        value = self.get_value(19.2)
+        assert value is False
+
+    @status
+    def test_non_number(self):
+        value = self.get_value('squirrel')
+        assert value is False
+
+    @status
+    def test_list(self):
+        value = self.get_value([])
+        assert value is False
+
+    @status
+    def test_dict(self):
+        value = self.get_value({})
+        assert value is False
+
+    @status
+    def test_object(self):
+
+        class DiceTest:
+            pass
+        
+        value = self.get_value(DiceTest())
+        assert value is False
+
+    @status
+    def test_no_arguments(self):
+        value = self.get_value()
+        assert value is False
+
+
 class VersionCommandTests(unittest.TestCase):
 
     def setUp(self):
