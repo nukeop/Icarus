@@ -22,7 +22,6 @@ def create_command(bot):
 
     @bot.command(pass_context=True, brief="Opens a random lootbox for you")
     async def lootbox(ctx):
-        #random_quote = random.choice(quotes)
         await bot.say("{} is opening a loot box... :gift:".format(ctx.message.author.mention))
         time.sleep(3)
 
