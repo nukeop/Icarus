@@ -37,7 +37,7 @@ def create_command(bot):
         
         embed = None
 
-        if effect in negative:
+        if effect in list(negative.items()):
             embed = Embed(
                 title = "",
                 description = ":anger:" + effect[0]
