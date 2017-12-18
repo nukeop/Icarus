@@ -26,14 +26,26 @@ rewards = {
     ":seven:": "JACKPOT! You win all the internets."
 }
 
+
+def gen_slot_results(symbols, columns, random=random):
+    return [random.choice(symbols) for _ in range(columns)]
+
+def check_win(results):
+    return (
+        type(results) == type([]) and
+        len(results) > 0 and
+        results.count(results[0]) == len(results)
+    )
+
+
 def create_command(bot):
 
     @bot.command(pass_context=True)
     async def slots(ctx):
         await bot.say(":slot_machine: {} decided to give the slot machine a spin.".format(ctx.message.author.mention))
-        slot_results = [random.choice(symbols) for _ in range(3)]
+        slot_results = gen_slot_results(symbols, 3)
         await bot.say(''.join(slot_results))
-        if slot_results.count(slot_results[0]) == len(slot_results):
+        if check_win(slot_results):
             await bot.say('{} has won!'.format(ctx.message.author.mention))
             await bot.say('Your reward is: {}'.format(rewards[slot_results[0]]))
         

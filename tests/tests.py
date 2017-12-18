@@ -8,7 +8,11 @@ from nose.tools import assert_equal
 
 def status(fun):
     def test_new( *args, **kwargs):
-        print("\nRunning test: {}... ".format(fun.__name__), end="")
+        class_name = str(fun).split('.')[0].split(' ')[1]
+        print(
+            "\nRunning test: {}.{}... ".format(class_name, fun.__name__),
+            end=""
+        ) 
         fun(*args, **kwargs)
         print("\033[92m✓\x1b[0m")
     return test_new
@@ -18,8 +22,42 @@ def sanity_test():
     assert True
 
 
-class DiceCommandTests(unittest.TestCase):
+class SlotsCommandTests(unittest.TestCase):
+    def setUp(self):
+        from commands.slots import gen_slot_results, check_win
+        self.gen_slot_results = gen_slot_results
+        self.check_win = check_win
 
+    @status
+    def test_results_trivial(self):
+        results = self.gen_slot_results(
+            ['1'],
+            3
+        )
+
+        assert results == ['1', '1', '1']
+
+    @status
+    def test_check_win_positive_trivial(self):
+        assert self.check_win([1, 1, 1])
+
+    @status
+    def test_check_win_negative_trivial(self):
+        assert self.check_win([1, 2, 3]) == False
+
+    @status
+    def test_check_win_nonlist(self):
+        assert self.check_win(10) == False
+
+    @status
+    def test_check_win_string(self):
+        assert self.check_win('111') == False
+
+    @status
+    def test_check_win_empty(self):
+        assert self.check_win([]) == False
+
+class DiceCommandTests(unittest.TestCase):
     def setUp(self):
         from commands.dice import get_value
         self.get_value = get_value
@@ -62,7 +100,6 @@ class DiceCommandTests(unittest.TestCase):
             assert value <= int(max)
             assert value > 0
         
-
     @status
     def test_list(self):
         value = self.get_value([])
@@ -89,7 +126,6 @@ class DiceCommandTests(unittest.TestCase):
 
 
 class VersionCommandTests(unittest.TestCase):
-
     def setUp(self):
         from commands.version import get_version_hash
         self.get_version_hash = get_version_hash
@@ -107,7 +143,6 @@ class VersionCommandTests(unittest.TestCase):
     
 
 class MovieCommandTests(unittest.TestCase):
-
     def setUp(self):
         from commands.movie import get_movie_info
         self.movie_command = get_movie_info
