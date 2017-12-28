@@ -1,18 +1,23 @@
+import logging
 import random
 import time
 
 from discord import Colour, Embed
 
+log = logging.getLogger(__name__)
+
 # rolling a dice with X sides
 
 def get_value(sides):
-    sides = int(sides)
-    if sides < 1:
-        return False
-    
-    if sides >= 1:
-        value = random.randint(1, sides)
-
+    value = False
+    try:
+        sides = int(sides)
+        
+        if sides >= 1:
+            value = random.randint(1, sides)
+    except:
+        log.error('Invalid argument passed to get_value: {}'.format(sides))
+            
     return value
     
 def create_command(bot):

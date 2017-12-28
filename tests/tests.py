@@ -84,7 +84,8 @@ class DiceCommandTests(unittest.TestCase):
     @status
     def test_float(self):
         value = self.get_value(19.2)
-        assert value is False
+        assert value <= 19
+        assert value > 0
 
     @status
     def test_non_number(self):
@@ -117,11 +118,6 @@ class DiceCommandTests(unittest.TestCase):
             pass
         
         value = self.get_value(DiceTest())
-        assert value is False
-
-    @status
-    def test_no_arguments(self):
-        value = self.get_value()
         assert value is False
 
 
