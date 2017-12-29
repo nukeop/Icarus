@@ -11,6 +11,9 @@ def create_command(bot):
 
     @bot.command(pass_context=True, brief="Allows you to communicate with God")
     async def god(ctx, num=10):
+        """
+        Ask God for his input on any subject.
+        """
         embed = Embed(
             description=get_words(words, num)
         )

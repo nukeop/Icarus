@@ -26,6 +26,9 @@ def xkcd_embed(data):
 def create_command(bot):
     @bot.command(pass_context= True, brief = "xkcd comic")
     async def comic(ctx):
+        """
+        Shows the latest xkcd webcomic with alt text.
+        """
         embed = xkcd_embed(get_xkcd_latest())
         embed.color = Colour.dark_orange()
         await bot.say(None, embed=embed)

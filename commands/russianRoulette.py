@@ -3,8 +3,11 @@ import time
 
 def create_command(bot):
 
-    @bot.command(pass_context=True, name="russianroulette")
+    @bot.command(pass_context=True, name="russianroulette", help="Play russian roulette")
     async def russianRoulette(ctx):
+        """
+        1 out of 6 chambers is loaded. This command lets you test your luck.
+        """
         await bot.say("{} spins the barrel and pulls the trigger... :gun:".format(ctx.message.author.mention))
         time.sleep(3)
                       

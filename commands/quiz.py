@@ -35,8 +35,13 @@ def format_answers(correct, incorrect):
 
 def create_command(bot):
 
-    @bot.group(pass_context=True)
+    @bot.group(pass_context=True,brief="Answer trivia questions")
     async def quiz(ctx):
+        """
+        !quiz - shows you a random trivia question.
+        !quiz <answer> - lets you answer the question. You can either use the
+        answer index or type it (watch out for typos).
+        """ 
         if ctx.invoked_subcommand is None:
             question = requests.get(QUIZ_API).text
             question = json.loads(question)

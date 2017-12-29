@@ -33,6 +33,9 @@ def get_meaning(phrase):
     
 
 def create_command(bot):
-    @bot.command(pass_context = True, brief="UD search", help= generate_help_string())
+    @bot.command(name="urban", pass_context = True, brief="UD search", help= generate_help_string())
     async def ud(ctx, *, phrase):
+        """
+        Search urban dictionary for a phrase.
+        """
         await bot.say(get_meaning(phrase))

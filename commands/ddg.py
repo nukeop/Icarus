@@ -22,7 +22,7 @@ def create_command(bot):
     @bot.command(pass_context=True, brief="Search for terms on DuckDuckGo")
     async def ddg(ctx, *, term):
         """
-        !ddg lets you search for things on DuckDuckGo. The bot will then return
+        lets you search for things on DuckDuckGo. The bot will then return
         the first link it returns and a short definition.
         """
         if '!' in term:

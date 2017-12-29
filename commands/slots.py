@@ -40,8 +40,11 @@ def check_win(results):
 
 def create_command(bot):
 
-    @bot.command(pass_context=True)
+    @bot.command(pass_context=True, help="Play with the slot machine")
     async def slots(ctx):
+        """
+        There are 10 different symbols. Line up 3 of a kind to win a reward. 
+        """
         await bot.say(":slot_machine: {} decided to give the slot machine a spin.".format(ctx.message.author.mention))
         slot_results = gen_slot_results(symbols, 3)
         await bot.say(''.join(slot_results))

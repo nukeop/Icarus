@@ -23,6 +23,9 @@ def get_value(sides):
 def create_command(bot):
     @bot.command(pass_context=True, brief="Roll a dice")
     async def dice (ctx, *, sides):
+        """ 
+        !dice <n> - rolls an n-sided dice
+        """
         if get_value(sides):
             
             embed= Embed()

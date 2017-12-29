@@ -2,7 +2,7 @@ from config import config
 
 def create_command(bot):
 
-    @bot.command(pass_context=True, brief="")
+    @bot.command(pass_context=True, brief="Shows information about information about information")
     async def info(ctx):
         """
         Shows information about information about information
