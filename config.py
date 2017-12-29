@@ -6,5 +6,6 @@ config = {
     "omdb_api_key": "",
     "github_token": "",
     "openweathermap_apikey": "",
+    "lastfm_api_key": "",
     "owner": ""
 }
