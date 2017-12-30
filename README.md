@@ -2,7 +2,7 @@
   <img align="center" src ="https://i.imgur.com/gsYCRay.jpg" />
 </p>
 
-# Icarus [![Build Status](https://travis-ci.org/nukeop/Icarus.svg?branch=master)](https://travis-ci.org/nukeop/Icarus)
+# Icarus [![Build Status](https://img.shields.io/travis/nukeop/Icarus.svg?style=flat-square)](https://travis-ci.org/nukeop/Icarus) [![Discord Bots](https://discordbots.org/api/widget/status/386607514537558035.svg)](https://discordbots.org/bot/386607514537558035)
 Discord chat bot -  a spiritual successor of RelayBot
 
 # Invite link
