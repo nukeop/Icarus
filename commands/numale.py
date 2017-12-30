@@ -1,13 +1,6 @@
 import random
 
-numales = [
-    "https://i.imgur.com/Bo2bSDN.jpg",
-    "https://i.imgur.com/TYhCjdf.jpg",
-    "https://i.imgur.com/QVwovqY.jpg",
-    "https://i.imgur.com/G373kWA.jpg",
-    "https://i.imgur.com/7Dhu1nR.jpg",
-]
-
+numales = open("data/numales.txt").readlines()
 
 def create_command(bot):
 
