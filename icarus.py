@@ -11,6 +11,7 @@ import os
 import commands
 from config import config
 from database import db
+from media import create_media_commands
 from update import periodic_autoupdate, send_after_update_message
 
 log = None
@@ -107,4 +108,5 @@ if __name__ == '__main__':
     log = configure_logging()
     startup_info()
     import_commands()
+    create_media_commands(bot)
     bot.run(config['token'])
