@@ -9,15 +9,12 @@ NEKO_API = "http://nekos.life/api/neko"
 def get_neko():
     r = requests.get(NEKO_API).text
     parsed = json.loads(r)
-
-    neko = parsed["neko"]
-
-    return neko
+    return parsed["neko"]
 
 
 def create_command(bot):
 
-    @bot.command(pass_context = True, brief = "Random neko image for you")
+    @bot.command(pass_context=True, brief="Random neko image for you")
     async def neko(ctx):
         neko = get_neko()
         
@@ -26,6 +23,6 @@ def create_command(bot):
         embed.color = Colour.magenta()
 
         embed.set_image(
-            url = neko
+            url=neko
         )
         await bot.say(None, embed=embed)
