@@ -32,13 +32,16 @@ async def after_login_info():
     db.purge_table('connected_servers')
     table = db.table('connected_servers')
     for server in bot.servers:
-        table.insert({'server': {
-            'id': server.id,
-            'name': server.name,
-            'owner': server.owner.id,
-            'member_count': server.member_count
-        }})
-        
+        try:
+            table.insert({'server': {
+                'id': server.id,
+                'name': server.name,
+                'owner': server.owner.id,
+                'member_count': server.member_count
+            }})
+        except:
+            pass
+            
     if config['updated']:
         for server in bot.servers:
             main_channel = [c for c in list(server.channels) if c.type ==
