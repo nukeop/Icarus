@@ -86,13 +86,50 @@ def embed_tweet(tweet):
     )
     
     return embed
+
+
+def embed_post(link):
+    post_num = link.split('#')[1]
+    post = requests.get(link).text
+    soup = BeautifulSoup(post, 'html.parser')
+    post_tag = soup.select('#{}'.format(post_num))[0]
+    post_content = post_tag.select('.messageText')[0].get_text()
+
+    # 2048 is Discord's limit for embed description
+    if len(post_content) > 2048:
+        post_content = post_content[:2045] + '...'
+
+    embed = Embed()
+    embed.type = "rich"
+    embed.color = Colour.dark_red()
+
+    embed.title = soup.select('h1')[0].get_text()
+    embed.url = link
+    embed.description = post_content
     
+    embed.set_author(
+        name=post_tag.get('data-author'),
+        url=CODEX_ROOT + post_tag.select('.avatar')[0].get('href'),
+        icon_url=CODEX_ROOT + post_tag.select('.avatar img')[0].get('src')
+    )
+    
+    return embed
+
 
 def create_command(bot):
     @bot.group(pass_context=True, brief="Shows most recently active RPG Codex "
                "thread")
     async def codex(ctx):
         if ctx.invoked_subcommand is None:
+            if len(ctx.message.content.split(' ')) > 0:
+                link = ctx.message.content.split(' ')[1]
+                if "rpgcodex.net" in link:
+                    if "post" in link:
+                        embed = embed_post(link)
+                        await bot.say(None, embed=embed)
+                        return
+            
+            
             recent = requests.get(CODEX_RECENT).text
             soup = BeautifulSoup(recent, 'html.parser')
             discussionList = soup.select('.discussionList')[0]
