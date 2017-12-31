@@ -6,6 +6,7 @@ from discord import Colour, Embed
 
 CODEX_ROOT = 'https://rpgcodex.net/forums/'
 CODEX_RECENT = 'https://rpgcodex.net/forums/index.php?find-new/posts'
+CODEX_PROFILE_POSTS = 'http://rpgcodex.net/forums/index.php?find-new/profile-posts'
 
 
 def embed_thread(thread):
@@ -64,6 +65,29 @@ def embed_thread(thread):
     return embed
 
 
+def embed_tweet(tweet):
+    embed = Embed()
+    embed.type = "rich"
+    embed.color = Colour.dark_red()
+
+    author = tweet.get('data-author')
+    author_profile = tweet.select('.avatar')[0].get('href')
+    avatar = tweet.select('.avatar img')[0].get('src')
+    
+    embed.title = tweet.select('.messageContent blockquote')[0].get_text()
+    embed.url = CODEX_ROOT + tweet.select('.privateControls a')[0].get('href')
+    embed.timestamp = datetime.datetime.fromtimestamp(int(
+        tweet.select('.privateControls abbr')[0].get('data-time')
+    ))
+    embed.set_author(
+        name=author,
+        url=CODEX_ROOT + author_profile,
+        icon_url=CODEX_ROOT + avatar
+    )
+    
+    return embed
+    
+
 def create_command(bot):
     @bot.group(pass_context=True, brief="Shows most recently active RPG Codex "
                "thread")
@@ -75,7 +99,17 @@ def create_command(bot):
             threads = discussionList.select('li')
 
             for thread in threads[:1]:
-
                 embed = embed_thread(thread)
-                
                 await bot.say(None, embed=embed)
+
+    @codex.command(pass_context=True)
+    async def tweets(ctx, num=1):
+        tweets = requests.get(CODEX_PROFILE_POSTS).text
+        soup = BeautifulSoup(tweets, 'html.parser')
+        profilePostList = soup.select('#ProfilePostList')[0]
+        posts = profilePostList.select('.primaryContent')
+
+        for tweet in posts[:num]:
+            embed = embed_tweet(tweet)
+            await bot.say(None, embed=embed)
+        
