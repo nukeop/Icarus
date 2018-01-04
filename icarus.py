@@ -67,6 +67,15 @@ async def on_message(message):
     await bot.process_commands(message)
 
 
+@bot.event
+async def on_command(command, ctx):
+    log.info('Command "{}" invoked by {} on server {}'.format(
+        ctx.invoked_with,
+        str(ctx.message.author),
+        str(ctx.message.server)
+    ))
+
+
 @bot.check
 def checkDevMode(ctx):
     return (not config['dev'] or ctx.message.channel.name == 'icarus')
