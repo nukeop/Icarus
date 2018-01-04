@@ -26,6 +26,6 @@ def create_command(bot):
             value=random.choice(lootbox_contents)
         )
         embed.set_footer(
-            text= random.choice(quotes)
+            text=random.choice(quotes)
         )
         await bot.say(None, embed=embed)
