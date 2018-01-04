@@ -12,6 +12,7 @@ import commands
 from config import config
 from database import db
 from media import create_media_commands
+from stats import command_called
 from update import periodic_autoupdate, send_after_update_message
 
 log = None
@@ -19,6 +20,7 @@ bot = discord_commands.Bot(command_prefix='!',
                            description=config['description'], pm_help=True)
 bot.command_functions = []
 userdata = db.table('userdata')
+stats = db.table('stats')
 
 
 def startup_info():
@@ -74,6 +76,7 @@ async def on_command(command, ctx):
         str(ctx.message.author),
         str(ctx.message.server)
     ))
+    command_called(stats, ctx.invoked_with, ctx.message.author, ctx.message.server)
 
 
 @bot.check
