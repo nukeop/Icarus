@@ -4,6 +4,11 @@ import random
 import pokebase as pb
 from discord import Colour, Embed
 
+def random_item():
+    l = pb.APIResourceList('item')
+    item = random.choice(list(l))
+    return pb.NamedAPIResource('item', item['name'])
+
 def embed_pokemon(poke):
     species = poke.species
     descriptions = []
@@ -23,6 +28,13 @@ def embed_pokemon(poke):
         for name in move.names:
             if name.language.name == 'en':
                 known_moves_str.append(name.name)
+
+    item = random_item()
+    itemname = ""
+    for name in item.names:
+        if name.language.name == 'en':
+            itemname = name.name
+            break
     
     embed = Embed()
     embed.type = "rich"
@@ -47,6 +59,11 @@ def embed_pokemon(poke):
     embed.add_field(
         name='Moves',
         value=', '.join(known_moves_str)
+    )
+
+    embed.add_field(
+        name='Held item',
+        value=itemname
     )
 
     return embed
