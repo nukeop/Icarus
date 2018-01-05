@@ -12,11 +12,22 @@ def embed_pokemon(poke):
             descriptions.append(entry.flavor_text)
     types = sorted(list(poke.types), key=lambda x: x.slot)
     types = '/'.join(x.type.name.capitalize() for x in types)
+
+    ability = random.choice(poke.abilities)
+    known_moves = poke.moves
+    random.shuffle(known_moves)
+    known_moves = known_moves[:4]
+    known_moves = [pb.NamedAPIResource('move', m.move.name) for m in known_moves]
+    known_moves_str = []
+    for move in known_moves:
+        for name in move.names:
+            if name.language.name == 'en':
+                known_moves_str.append(name.name)
     
     embed = Embed()
     embed.type = "rich"
     embed.color = Colour.blue()
-    embed.title = "You caught: #{} {}".format(species.id, poke.name.capitalize())
+    embed.title = "You caught: #{} {}".format(species.id, species.name.capitalize())
     embed.description = random.choice(descriptions)
     
     embed.set_image(
@@ -26,6 +37,16 @@ def embed_pokemon(poke):
     embed.add_field(
         name='Type',
         value=types
+    )
+
+    embed.add_field(
+        name='Ability',
+        value=ability.ability.name.capitalize()
+    )
+
+    embed.add_field(
+        name='Moves',
+        value=', '.join(known_moves_str)
     )
 
     return embed
