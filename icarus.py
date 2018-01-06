@@ -9,6 +9,7 @@ import logging
 import os
 
 import commands
+from botlist import update_server_count
 from config import config
 from database import db
 from media import create_media_commands
@@ -31,6 +32,8 @@ def startup_info():
 async def after_login_info():
     log.info('Connected servers: {}'.format(len(bot.servers)))
 
+    update_server_count(bot.user.id, len(bot.servers))
+    
     db.purge_table('connected_servers')
     table = db.table('connected_servers')
     for server in bot.servers:

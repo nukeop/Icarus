@@ -7,5 +7,6 @@ config = {
     "github_token": "",
     "openweathermap_apikey": "",
     "lastfm_api_key": "",
+    "discord_bot_list_api_key": "",
     "owner": ""
 }
