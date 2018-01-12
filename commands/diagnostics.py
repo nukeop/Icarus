@@ -31,7 +31,8 @@ def create_command(bot):
         )
 
         uptime=subprocess.check_output(['uptime']).decode('utf-8')
-        uptime = ' '.join(uptime.split(' ')[:3]).strip()
+        uptime = ', '.join(uptime.split(',')[:2]).strip()
+        uptime = ' '.join(uptime.split(' ')[1:])
         embed.add_field(
             name="Uptime",
             value=uptime
