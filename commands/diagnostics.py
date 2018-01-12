@@ -37,7 +37,17 @@ def create_command(bot):
             name="Uptime",
             value=uptime
         )
-        
+
+        servers = ''
+
+        for server in sorted(bot.servers, key=lambda x: x.member_count):
+            servers += '{}: {} members\n'.format(server.name, server.member_count)
+
+        embed.add_field(
+            name="Servers",
+            value=servers
+        )
+            
         await bot.send_message(ctx.message.author, None, embed=embed)
 
     return diagnostics
