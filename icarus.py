@@ -49,9 +49,12 @@ async def after_login_info():
             
     if config['updated']:
         for server in bot.servers:
-            main_channel = [c for c in list(server.channels) if c.type ==
+            try:
+                main_channel = [c for c in list(server.channels) if c.type ==
                         discord.ChannelType.text and c.position == 0][0]
-            await send_after_update_message(bot, main_channel)
+                await send_after_update_message(bot, main_channel)
+            except:
+                pass
 
  
 @bot.event
@@ -94,6 +97,7 @@ def configure_logging():
     logging.getLogger('websockets').setLevel(logging.WARNING)
     logging.getLogger('urllib3').setLevel(logging.WARNING)
     logging.getLogger('github').setLevel(logging.WARNING)
+    logging.getLogger('chardet').setLevel(logging.WARNING)
 
     formatter = logging.Formatter("[%(levelname)s] - %(asctime)s - %(name)s -"
                                   " %(message)s")

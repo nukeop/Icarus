@@ -4,6 +4,7 @@ discord.py
 lxml
 mock
 nose
+igdb_api_python
 pokebase	
 pygithub
 python-Levenshtein
