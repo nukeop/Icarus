@@ -8,5 +8,7 @@ config = {
     "openweathermap_apikey": "",
     "lastfm_api_key": "",
     "discord_bot_list_api_key": "",
+    "yt_api_key": "",
+    "igdb_api_key": "",
     "owner": ""
 }
