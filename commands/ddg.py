@@ -13,9 +13,16 @@ def ddg_search(term):
     }
     text = requests.post(DDG_SEARCH_URL, data=params).text
     document = html.fromstring(text)
-    
-    result = document.cssselect('#links .links_main a')[0].get('href')
-    return result
+
+    links = document.cssselect('#links .links_main a')
+
+    for link in links:
+        href = link.get('href')
+        if 'y.js' not in href and 'duck.co' not in href:
+            return href
+
+    return None
+
 
 def create_command(bot):
 
