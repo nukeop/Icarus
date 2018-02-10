@@ -41,8 +41,7 @@ def after_update_message():
 
 
 async def send_after_update_message(bot, channel):
-    for line in after_update_message():
-        await bot.send_message(channel, line)
+    pass
 
 
 def autoupdate():
