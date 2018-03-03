@@ -17,12 +17,20 @@ from stats import command_called
 from update import periodic_autoupdate, send_after_update_message
 
 log = None
-bot = discord_commands.Bot(command_prefix='!',
+
+def prefix(bot, msg):
+    p = msg.content[0]
+    if p=='!' or p=='.':
+        return p
+    else:
+        return '!'
+
+
+bot = discord_commands.Bot(command_prefix=prefix,
                            description=config['description'], pm_help=True)
 bot.command_functions = []
 userdata = db.table('userdata')
 stats = db.table('stats')
-
 
 def startup_info():
     log.info('Starting Icarus...')
