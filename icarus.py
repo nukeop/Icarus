@@ -77,6 +77,7 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
+    await bot.process_commands(message)
     user_db_entry = Query()
     entry = userdata.get(user_db_entry.id == message.author.id)
     if not entry:
@@ -84,8 +85,7 @@ async def on_message(message):
         entry = userdata.get(doc_id=doc_id)
 
     userdata.update({'name': message.author.name}, doc_ids=[entry.doc_id])
-    await bot.process_commands(message)
-
+    
 
 @bot.event
 async def on_command(command, ctx):
