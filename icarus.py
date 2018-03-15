@@ -19,10 +19,13 @@ from update import periodic_autoupdate, send_after_update_message
 log = None
 
 def prefix(bot, msg):
-    p = msg.content[0]
-    if p=='!' or p=='.':
-        return p
-    else:
+    try:
+        p = msg.content[0]
+        if p=='!' or p=='.':
+            return p
+        else:
+            return '!'
+    except:
         return '!'
 
 
