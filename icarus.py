@@ -34,14 +34,15 @@ stats = db.table('stats')
 
 def startup_info():
     log.info('Starting Icarus...')
-    periodic_autoupdate()
-    
+    if not config['dev']:
+        periodic_autoupdate()
+
 
 async def after_login_info():
     log.info('Connected servers: {}'.format(len(bot.servers)))
 
     update_server_count(bot.user.id, len(bot.servers))
-    
+
     db.purge_table('connected_servers')
     table = db.table('connected_servers')
     for server in bot.servers:
@@ -54,7 +55,7 @@ async def after_login_info():
             }})
         except:
             pass
-            
+
     if config['updated']:
         for server in bot.servers:
             try:
@@ -64,7 +65,7 @@ async def after_login_info():
             except:
                 pass
 
- 
+
 @bot.event
 async def on_ready():
     log.info('Logged in as {} ({})'.format(bot.user.name, bot.user.id))
@@ -117,7 +118,7 @@ def configure_logging():
 
     return root
 
-    
+
 def import_commands():
     log.info("Scanning commands...")
     files = os.listdir(os.path.join(os.path.dirname(__file__),
@@ -132,7 +133,7 @@ def import_commands():
             bot.command_functions.append(cmd_fun)
         else:
             log.error("Invalid command: {}, skipping".format(module))
-            
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--dev', action='store_true', help='If enabled, the'
@@ -145,7 +146,7 @@ if __name__ == '__main__':
 
     config['dev'] = args.dev
     config['updated'] = args.updated
-    
+
     log = configure_logging()
     startup_info()
     import_commands()
