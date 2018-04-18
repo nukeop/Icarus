@@ -26,7 +26,7 @@ async def get_neko(term, bot):
             r = requests.get(API_SECOND + term).text
             parsed = json.loads(r)
             return parsed["url"]
-        else:
+        elif(term == None):
             r = requests.get(NEKO_API).text
             parsed = json.loads(r)
             return parsed["neko"]
@@ -36,7 +36,7 @@ async def get_neko(term, bot):
 def create_command(bot):
 
     @bot.command(pass_context=True, brief="Random neko image for you. Possibly nsfw", help=generate_help_string())
-    async def neko(ctx , *, term):
+    async def neko(ctx , *, term=None):
         neko = await get_neko(term, bot)
         
         embed = Embed()
