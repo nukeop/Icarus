@@ -21,6 +21,8 @@ async def get_lewd(term, bot):
     try:
         res = requests.get(DANBOORU_API.format(term), auth=(login, api_key)).content
         parsed = json.loads(res)
+        if parsed == []:
+            return "empty"
         post = parsed[0]
         return post["file_url"]
         
@@ -33,6 +35,9 @@ def create_command(bot):
     @bot.command(pass_context=True, brief="Random lewd image for you. Courtesy of danbooru.donmai.us", help=generate_help_string())
     async def lewd(ctx, *, term):
         lewd = await get_lewd(term, bot)
+
+        if lewd == "empty":
+            await bot.say("Couldn't find any image tagged with " + term + ".")
 
         embed = Embed()
         embed.type = "rich"
