@@ -16,28 +16,26 @@ def generate_help_string():
     "
     return help
 
-
+3
 async def get_lewd(term, bot):
+    r = requests.get(DANBOORU_API.format(term), auth=(login, api_key)).text
+    parsed = json.loads(r)
     try:
-        res = requests.get(DANBOORU_API.format(term), auth=(login, api_key)).content
-        parsed = json.loads(res)
-        if parsed == []:
-            return "empty"
-        post = parsed[0]
-        return post["file_url"]
-        
+        if term:
+            post = parsed[0]["file_url"]
+            return post
+        elif (term == None):
+             await bot.say("No arguments at the end of the query")
     except:
-        await bot.say("Something happened ;^)")
+        await bot.say("No images found")
 
 
+    
 def create_command(bot):
 
     @bot.command(pass_context=True, brief="Random lewd image for you. Courtesy of danbooru.donmai.us", help=generate_help_string())
-    async def lewd(ctx, *, term):
+    async def lewd(ctx, *, term=None):
         lewd = await get_lewd(term, bot)
-
-        if lewd == "empty":
-            await bot.say("Couldn't find any image tagged with " + term + ".")
 
         embed = Embed()
         embed.type = "rich"
