@@ -16,7 +16,7 @@ def generate_help_string():
     "
     return help
 
-3
+
 async def get_lewd(term, bot):
     r = requests.get(DANBOORU_API.format(term), auth=(login, api_key)).text
     parsed = json.loads(r)
