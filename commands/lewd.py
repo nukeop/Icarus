@@ -10,7 +10,10 @@ api_key = config["danbooru_apikey"]
 
 
 def generate_help_string():
-    help = "UNDER CONSTRUCTION"
+    help = "\
+    Shows random lewd image from Danbooru tagged with the term passed as a parameter. \n \
+    Please remember to carefully use parameters to avoid bugs.\
+    "
     return help
 
 
@@ -18,8 +21,8 @@ async def get_lewd(term, bot):
     try:
         res = requests.get(DANBOORU_API.format(term), auth=(login, api_key)).content
         parsed = json.loads(res)
-        img_url = parsed[0]
-        return img_url["file_url"]
+        post = parsed[0]
+        return post["file_url"]
         
     except:
         await bot.say("Something happened ;^)")
