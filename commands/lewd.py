@@ -11,7 +11,9 @@ api_key = config["danbooru_apikey"]
 
 def generate_help_string():
     help = "\
-    Shows random lewd image from Danbooru tagged with the term passed as a parameter. \n \
+    Shows random lewd image from Danbooru tagged with the terms (up to a maximum of two) passed as parameters. \n \
+    A space denotes two different tags to be searched for, use underscore for when a tag has more than one word. \n \
+    For example: '!lewd red_hair one_piece_swimsuit' will search for an image tagged with 'red_hair' and 'one_piece_swimsuit'. \n \
     Please remember to carefully use parameters to avoid bugs.\
     "
     return help
@@ -23,11 +25,13 @@ async def get_lewd(term, bot):
     try:
         if term:
             post = parsed[0]["file_url"]
+            if (post == None):
+                post = parsed[0]["source"]
             return post
         elif (term == None):
-             await bot.say("No arguments at the end of the query")
+             await bot.say("No arguments at the end of the query.")
     except:
-        await bot.say("No images found")
+        await bot.say("No images found, or incorrect query structure.")
 
 
     
