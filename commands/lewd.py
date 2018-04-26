@@ -5,6 +5,7 @@ from discord import Colour, Embed
 from config import config
 
 DANBOORU_API = "http://danbooru.donmai.us/posts.json?limit=1&random=true&tags={}"
+POST_URL = "http://danbooru.donmai.us/posts/{}"
 login = config["danbooru_login"]
 api_key = config["danbooru_apikey"]
 
@@ -27,7 +28,7 @@ async def get_lewd(term, bot):
             post = parsed[0]["file_url"]
             if (post == None):
                 post = parsed[0]["source"]
-            return post
+            return {"post": post, "id": parsed[0]["id"]}
         elif (term == None):
              await bot.say("No arguments at the end of the query.")
     except:
@@ -44,8 +45,10 @@ def create_command(bot):
         embed = Embed()
         embed.type = "rich"
         embed.colour = Colour.magenta()
-
         embed.set_image(
-            url=lewd
+            url=lewd["post"]
+        )
+        embed.set_footer(
+            text=POST_URL.format(lewd["id"])
         )
         await bot.say(None, embed=embed)
